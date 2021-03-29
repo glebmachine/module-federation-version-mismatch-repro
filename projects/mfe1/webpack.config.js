@@ -5,11 +5,15 @@ const path = require("path");
 const sharedMappings = new mf.SharedMappings();
 sharedMappings.register(
   path.join(__dirname, '../../tsconfig.json'),
-  ['auth-lib']  
+  [
+    'auth-lib',
+    'shared-lib'
+  ]
 );
 
 module.exports = {
   output: {
+    chunkFilename: '[name]-[contenthash].js',
     uniqueName: "mfe1"
   },
   optimization: {
@@ -18,23 +22,23 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      
+
         // For remotes (please adjust)
         name: "mfe1",
         filename: "remoteEntry.js",
         exposes: {
             './Module': './projects/mfe1/src/app/flights/flights.module.ts',
-        },        
-        
+        },
+
         shared: {
-          "@angular/core": { singleton: true, strictVersion: true }, 
-          "@angular/common": { singleton: true, strictVersion: true }, 
+          "@angular/core": { singleton: true, strictVersion: true },
+          "@angular/common": { singleton: true, strictVersion: true },
           "@angular/router": { singleton: true, strictVersion: true },
 
           // Uncomment for sharing lib of an Angular CLI or Nx workspace
            ...sharedMappings.getDescriptors()
         }
-        
+
     }),
     // Uncomment for sharing lib of an Angular CLI or Nx workspace
     sharedMappings.getPlugin(),
