@@ -1,14 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Controls, NgxAutomaticRootFormComponent } from 'ngx-sub-form';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
 })
-export class HomeComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+export class HomeComponent
+  extends NgxAutomaticRootFormComponent<any, any>
+  implements OnInit {
+  dataInput: Required<any>;
+  dataOutput: EventEmitter<any>;
+  protected getFormControls(): Controls<any> {
+    throw new Error('Method not implemented.');
   }
 
+  constructor() {
+    super();
+  }
+
+  ngOnInit() {}
 }
